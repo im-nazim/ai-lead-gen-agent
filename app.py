@@ -64,6 +64,14 @@ st.markdown("""
         word-wrap: break-word;
     }
  
+    div[data-testid="stTable"] table { width: 100%; table-layout: auto; }
+    div[data-testid="stTable"] th, div[data-testid="stTable"] td {
+        white-space: normal; overflow-wrap: break-word; vertical-align: top;
+    }
+    div[data-testid="stTable"] th:nth-child(3), div[data-testid="stTable"] td:nth-child(3),
+    div[data-testid="stTable"] th:nth-child(4), div[data-testid="stTable"] td:nth-child(4) { white-space: nowrap; }
+    div[data-testid="stTable"] th:nth-child(7), div[data-testid="stTable"] td:nth-child(7) { width: 50%; }
+
     div.stButton > button[kind="primary"] {
         border-radius: 8px;
         font-weight: 600;
@@ -242,11 +250,11 @@ with results_tab:
         })
  
         styled = (
-            display_df.style
+            display_df.set_axis(range(1, len(display_df) + 1)).style
             .map(_score_bg, subset=["Score"])
             .map(_confidence_bg, subset=["Confidence"])
         )
-        st.dataframe(styled, use_container_width=True, hide_index=True)
+        st.table(styled)
  
         st.download_button(
             "⬇ Download full results as CSV",
